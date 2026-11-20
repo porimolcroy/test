@@ -1,5 +1,5 @@
 // Apps Script Web App URL এখানে বসান (README দেখুন)
-window.APP_URL = "https://script.google.com/macros/s/AKfycbxPNJ6XZzH0yejg902VE1tCtuSICZmvZEjvF0yYofpTYythJOgf227GLWf3fhewsZOBaQ/exec";
+window.APP_URL = "https://script.google.com/macros/s/AKfycbzo-4S-UqrCn5TLXuA176O9Xqi-sG6YvGMXx6mOu3k1reRLe6BqYLferzH5AorLR_RT/exec";
 
 window.api = async function (data) {
   if (!window.APP_URL || window.APP_URL.indexOf("PASTE_") === 0)
