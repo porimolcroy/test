@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>মেইন পেজ</title>
+<style>
+body{margin:0;font-family:"Noto Sans Bengali",Arial,sans-serif;background:#f3f6fb;display:none}
+header{background:#2f5597;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header button{background:#fff;color:#2f5597;border:0;padding:8px 16px;border-radius:6px;cursor:pointer;font-family:inherit}
+main{max-width:800px;margin:30px auto;padding:0 16px}
+.box{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+</style></head><body>
+<header><b>মেইন পেজ</b><span><span id="who"></span> &nbsp; <button onclick="out()">লগআউট</button></span></header>
+<main><div class="box"><h2>স্বাগতম!</h2><p>আপনি সফলভাবে প্রবেশ করেছেন। এখানে আপনার মূল কন্টেন্ট যুক্ত করুন।</p></div></main>
+<script src="config.js"></script>
+<script>
+(async()=>{
+ const t=localStorage.getItem('token');
+ const d=t?await api({action:'verify',token:t}):{ok:false};
+ if(!d.ok){localStorage.removeItem('token');location.replace('index.html');return;}
+ document.getElementById('who').textContent=d.email+' ('+d.user_id+')';
+ document.body.style.display='block';
+})();
+async function out(){await api({action:'logout',token:localStorage.getItem('token')});localStorage.removeItem('token');location.href='index.html';}
+</script></body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>সাইন আপ</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2f5597,#6a9be0);font-family:"Noto Sans Bengali",Arial,sans-serif}
+.card{background:#fff;width:100%;max-width:400px;margin:16px;padding:28px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h2{margin:0 0 16px;text-align:center;color:#2f5597}
+.tabs{display:flex;margin-bottom:18px;border-bottom:2px solid #e3e8f0}
+.tabs button{flex:1;padding:10px;border:0;background:none;font-size:16px;cursor:pointer;color:#777;font-family:inherit}
+.tabs button.on{color:#2f5597;font-weight:bold;border-bottom:3px solid #2f5597;margin-bottom:-2px}
+label{display:block;margin:12px 0 4px;font-size:14px;color:#333}
+input{width:100%;padding:11px;border:1px solid #c7cfdd;border-radius:8px;font-size:15px}
+.btn{width:100%;margin-top:18px;padding:12px;border:0;border-radius:8px;background:#2f5597;color:#fff;font-size:16px;cursor:pointer;font-family:inherit}
+.btn:disabled{opacity:.6}.btn.green{background:#2e9d5b}
+.msg{margin-top:12px;font-size:14px;text-align:center}.err{color:#c62828}.ok{color:#2e7d32}
+.hide{display:none}
+</style></head><body>
+<div class="card">
+ <h2>স্বাগতম</h2>
+ <div class="tabs"><button id="tS" class="on" onclick="tab('s')">সাইন আপ</button><button id="tL" onclick="tab('l')">লগইন</button></div>
+ <div id="form">
+  <label>ইমেইল</label><input id="email" type="email" placeholder="example@gmail.com" autocomplete="email">
+  <label>পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label><input id="pw" type="password" autocomplete="current-password">
+  <button class="btn" id="go" onclick="submitForm()">সাইন আপ করুন</button>
+ </div>
+ <div id="done" class="hide">
+  <p class="msg ok" id="doneMsg"></p>
+  <button class="btn green" onclick="location.href='main.html'">প্রবেশ করুন</button>
+ </div>
+ <div id="msg" class="msg"></div>
+</div>
+<script src="config.js"></script>
+<script>
+let mode='s';const $=id=>document.getElementById(id);
+function tab(m){mode=m;$('tS').classList.toggle('on',m=='s');$('tL').classList.toggle('on',m=='l');
+ $('go').textContent=m=='s'?'সাইন আপ করুন':'লগইন করুন';$('msg').textContent='';}
+async function submitForm(){
+ $('msg').className='msg';$('msg').textContent='অপেক্ষা করুন...';$('go').disabled=true;
+ const d=await api({action:mode=='s'?'signup':'login',email:$('email').value,password:$('pw').value});
+ $('go').disabled=false;
+ if(!d.ok){$('msg').className='msg err';$('msg').textContent=d.error||'সমস্যা হয়েছে';return;}
+ localStorage.setItem('token',d.token);
+ $('msg').textContent='';$('form').classList.add('hide');$('done').classList.remove('hide');
+ $('doneMsg').textContent=(mode=='s'?'সাইন আপ সফল হয়েছে! ':'লগইন সফল! ')+'আপনার User ID: '+d.user_id;
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('form').classList.contains('hide'))submitForm();});
+</script></body></html>
