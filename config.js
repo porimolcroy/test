@@ -1,5 +1,5 @@
 // Apps Script Web App URL এখানে বসান (README দেখুন)
-window.APP_URL = "Excel Worksheet.xlsx";
+window.APP_URL = "https://script.google.com/macros/s/AKfycbw8h8WszHkXv3kCi8PS2Az9VMfkKaER1MIiHQys1SNqWqxg3gGjf4m5pqIgQGBU3AKVEQ/exec";
 
 window.api = async function (data) {
   if (!window.APP_URL || window.APP_URL.indexOf("PASTE_") === 0)
